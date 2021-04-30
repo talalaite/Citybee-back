@@ -47,7 +47,7 @@ app.post("/models", async (req, res) => {
   }
 
   try {
-    const con = await mysql.createConnection(mtsqlConfig);
+    const con = await mysql.createConnection(mysqlConfig);
     const [result] = await con.execute(
       `INSERT INTO models (name, hourprice) VALUES (${mysql.escape(
         req.body.name
