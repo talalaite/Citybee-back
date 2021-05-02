@@ -97,7 +97,10 @@ app.get("/vehicles", async (req, res) => {
   try {
     const con = await mysql.createConnection(mysqlConfig);
     const [data] = await con.execute(`
-      SELECT models.name, (models.hourprice + models.hourprice * 0.21) AS hour_price_pvm, number_plate, country_location
+      SELECT models.name, 
+      (models.hourprice + models.hourprice * 0.21) AS hour_price_pvm, 
+      number_plate, 
+      country_location
       FROM vehicles
       INNER JOIN models ON (models.id = vehicles.model_id)
       `);
@@ -136,6 +139,70 @@ app.post("/vehicles", async (req, res) => {
     }
 
     return res.send({ id: result.insertId });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .send({ error: "Unexpected error has ocurred. Please try again later" });
+  }
+});
+
+// GET /vehicles/lt/lv/ee
+app.get("/vehicles/lt", async (req, res) => {
+  try {
+    const con = await mysql.createConnection(mysqlConfig);
+    const [data] = await con.execute(`
+        SELECT models.name, 
+        (models.hourprice + models.hourprice * 0.21) AS hour_price_pvm, 
+        number_plate, country_location
+        FROM vehicles
+        INNER JOIN models ON (models.id = vehicles.model_id)
+        WHERE country_location = 'LT'
+        `);
+
+    return res.send(data);
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .send({ error: "Unexpected error has ocurred. Please try again later" });
+  }
+});
+
+app.get("/vehicles/lv", async (req, res) => {
+  try {
+    const con = await mysql.createConnection(mysqlConfig);
+    const [data] = await con.execute(`
+          SELECT models.name, 
+          (models.hourprice + models.hourprice * 0.21) AS hour_price_pvm, 
+          number_plate, country_location
+          FROM vehicles
+          INNER JOIN models ON (models.id = vehicles.model_id)
+          WHERE country_location = 'LV'
+          `);
+
+    return res.send(data);
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .send({ error: "Unexpected error has ocurred. Please try again later" });
+  }
+});
+
+app.get("/vehicles/ee", async (req, res) => {
+  try {
+    const con = await mysql.createConnection(mysqlConfig);
+    const [data] = await con.execute(`
+            SELECT models.name, 
+            (models.hourprice + models.hourprice * 0.21) AS hour_price_pvm, 
+            number_plate, country_location
+            FROM vehicles
+            INNER JOIN models ON (models.id = vehicles.model_id)
+            WHERE country_location = 'EE'
+            `);
+
+    return res.send(data);
   } catch (err) {
     console.log(err);
     return res
