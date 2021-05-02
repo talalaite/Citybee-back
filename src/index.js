@@ -27,6 +27,7 @@ app.get("/", (req, res) => {
   res.send({ messege: "The server is running successfully" });
 });
 
+// GET, POST/models
 app.get("/models", async (req, res) => {
   try {
     const con = await mysql.createConnection(mysqlConfig);
@@ -61,6 +62,26 @@ app.post("/models", async (req, res) => {
     }
 
     return res.send({ id: result.insertId });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .send({ error: "Unexpected error has ocurred. Please try again later" });
+  }
+});
+
+// GET/modelscount
+app.get("/modelscount", async (req, res) => {
+  try {
+    const con = await mysql.createConnection(mysqlConfig);
+    const [data] = await con.execute(`
+    SELECT name, COUNT(vehicles.model_id) AS count, hourprice
+    FROM models
+    INNER JOIN vehicles ON vehicles.model_id = models.id
+    GROUP BY models.id
+    `);
+
+    return res.send(data);
   } catch (err) {
     console.log(err);
     return res
