@@ -33,6 +33,8 @@ app.get("/models", async (req, res) => {
     const con = await mysql.createConnection(mysqlConfig);
     const [data] = await con.execute(`SELECT * FROM models`);
 
+    con.end();
+
     return res.send(data);
   } catch (err) {
     console.log(err);
@@ -54,6 +56,8 @@ app.post("/models", async (req, res) => {
         req.body.name
       )}, ${mysql.escape(req.body.hourprice)})`
     );
+
+    con.end();
 
     if (!result.insertId) {
       return res
@@ -83,6 +87,8 @@ app.get("/modelscount", async (req, res) => {
     GROUP BY models.id
     `);
 
+    con.end();
+
     return res.send(data);
   } catch (err) {
     console.log(err);
@@ -104,6 +110,8 @@ app.get("/vehicles", async (req, res) => {
       FROM vehicles
       INNER JOIN models ON (models.id = vehicles.model_id)
       `);
+
+    con.end();
 
     return res.send(data);
   } catch (err) {
@@ -131,6 +139,8 @@ app.post("/vehicles", async (req, res) => {
       ${mysql.escape(req.body.number_plate)}, 
       ${mysql.escape(req.body.country_location)})`
     );
+
+    con.end();
 
     if (!result.insertId) {
       return res
@@ -160,6 +170,8 @@ app.get("/vehicles/lt", async (req, res) => {
         WHERE country_location = 'LT'
         `);
 
+    con.end();
+
     return res.send(data);
   } catch (err) {
     console.log(err);
@@ -181,6 +193,8 @@ app.get("/vehicles/lv", async (req, res) => {
           WHERE country_location = 'LV'
           `);
 
+    con.end();
+
     return res.send(data);
   } catch (err) {
     console.log(err);
@@ -201,6 +215,8 @@ app.get("/vehicles/ee", async (req, res) => {
             INNER JOIN models ON (models.id = vehicles.model_id)
             WHERE country_location = 'EE'
             `);
+
+    con.end();
 
     return res.send(data);
   } catch (err) {
