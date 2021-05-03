@@ -45,7 +45,7 @@ app.get("/models", async (req, res) => {
 });
 
 app.post("/models", async (req, res) => {
-  if (!req.body.name || !req.body.hourprice) {
+  if (!req.body.name || !req.body.hourprice || req.body.hourprice > 0) {
     return res.status(400).send({ error: "Incorrect data has been passed" });
   }
 
