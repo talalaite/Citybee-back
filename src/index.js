@@ -105,7 +105,7 @@ app.get("/vehicles", async (req, res) => {
   try {
     const con = await mysql.createConnection(mysqlConfig);
     const [data] = await con.execute(`
-      SELECT id,
+      SELECT vehicles.id,
       models.name, 
       (models.hourprice + models.hourprice * 0.21) AS hour_price_pvm, 
       number_plate, 
