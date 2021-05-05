@@ -4,6 +4,8 @@
 // ir cors(tikrina ir validuoja is kokiu domenu ateina signalai ir i kokius siunciam)
 // ir dotenv(priims env failus)
 // npm i express cors dotenv
+// isirasom mysql2(po to kai lenteles susikuriam terminale)
+// npm i msql2
 
 // inportuojam ka surasem...
 const express = require("express");
@@ -45,7 +47,7 @@ app.get("/models", async (req, res) => {
 });
 
 app.post("/models", async (req, res) => {
-  if (!req.body.name || !req.body.hourprice || req.body.hourprice > 0) {
+  if (!req.body.name || !req.body.hourprice) {
     return res.status(400).send({ error: "Incorrect data has been passed" });
   }
 
@@ -231,6 +233,6 @@ app.all("*", (req, res) => {
   res.status(404).send({ error: "Page not found" });
 });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => console.log(`Listening on ${port}`));
