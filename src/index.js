@@ -165,7 +165,8 @@ app.get("/vehicles/lt", async (req, res) => {
   try {
     const con = await mysql.createConnection(mysqlConfig);
     const [data] = await con.execute(`
-        SELECT models.name, 
+        SELECT vehicles.id,
+         models.name, 
         (models.hourprice + models.hourprice * 0.21) AS hour_price_pvm, 
         number_plate, country_location
         FROM vehicles
@@ -188,7 +189,8 @@ app.get("/vehicles/lv", async (req, res) => {
   try {
     const con = await mysql.createConnection(mysqlConfig);
     const [data] = await con.execute(`
-          SELECT models.name, 
+          SELECT vehicles.id,
+          models.name, 
           (models.hourprice + models.hourprice * 0.21) AS hour_price_pvm, 
           number_plate, country_location
           FROM vehicles
@@ -211,7 +213,8 @@ app.get("/vehicles/ee", async (req, res) => {
   try {
     const con = await mysql.createConnection(mysqlConfig);
     const [data] = await con.execute(`
-            SELECT models.name, 
+            SELECT vehicles.id,
+            models.name, 
             (models.hourprice + models.hourprice * 0.21) AS hour_price_pvm, 
             number_plate, country_location
             FROM vehicles
@@ -233,7 +236,3 @@ app.get("/vehicles/ee", async (req, res) => {
 app.all("*", (req, res) => {
   res.status(404).send({ error: "Page not found" });
 });
-
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => console.log(`Listening on ${port}`));
